@@ -1,0 +1,14 @@
+com\example\repository\pessoa\PessoaRepository.class
+com\example\adapter\PessoaBeanAdapter.class
+com\example\Main.class
+com\example\beans\PessoaBean.class
+com\example\beans\TestBean.class
+com\example\enums\Sexo.class
+com\example\service\PessoaService.class
+com\example\repository\endereco\EnderecoRepository.class
+com\example\model\BaseEntity.class
+com\example\model\endereco\Endereco.class
+com\example\service\endereco\EnderecoService.class
+com\example\model\pessoa\Pessoa.class
+com\example\repository\BaseRepository.class
+com\example\util\DateUtils.class

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Gestão de Pessoas</title>
+</h:head>
+<h:body>
+    <!-- Menu de Navegação -->
+    <p:menubar>
+        <p:menuitem value="Listar Pessoas" outcome="listar.xhtml"/>
+        <p:menuitem value="Nova Pessoa" outcome="criar.xhtml"/>
+    </p:menubar>
+
+    <!-- Área onde o conteúdo de cada página será inserido -->
+    <h:panelGroup>
+        <ui:insert name="conteudo"/>
+    </h:panelGroup>
+</h:body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="template.xhtml">
+   <ui:define name="conteudo">
+      <h:form id="formCadastro">
+         <p:growl id="msgs" showDetail="true" />
+
+         <p:panel header="Cadastrar pessoa" styleClass="ui-panel-title">
+            <div class="card">
+               <div class="ui-fluid">
+                  <div class="field">
+                     <h:outputLabel value="Nome:"/>
+                     <p:inputText value="#{CadastroPessoaView.pessoa.nome}"/>
+                  </div>
+               </div>
+
+               <div class="ui-fluid">
+                  <div class="field col-12 md:col-4">
+                     <p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
+                     <p:datePicker id="dataNascimento" value="#{CadastroPessoaView.pessoa.dataNascimento}" monthNavigator="true" yearNavigator="true" showWeek="false" />
+                  </div>
+               </div>
+
+               <div class="ui-fluid">
+                  <div class="field">
+                     <h:outputLabel value="Sexo:"/>
+                     <p:selectOneMenu value="#{CadastroPessoaView.pessoa.sexo}">
+                        <f:selectItems value="#{CadastroPessoaView.listaSexo}" var="s" itemLabel="#{s}" itemValue="#{s}"/>
+                     </p:selectOneMenu>
+                  </div>
+               </div>
+            </div>
+         </p:panel>
+
+         <!-- Bloco de Endereços -->
+         <p:panel id="enderecoPanel" header="Endereços" styleClass="ui-panel-title">
+            <ui:repeat value="#{CadastroPessoaView.listaEnderecos}" var="endereco" varStatus="status">
+               <div class="card">
+                  <p:panelGrid columns="2" style="width:100%">
+                     <h:outputLabel value="CEP:"/>
+                     <p:inputMask value="#{endereco.cep}" mask="99999-999"/>
+
+                     <h:outputLabel value="Estado:"/>
+                     <p:inputText value="#{endereco.estado}" />
+
+                     <h:outputLabel value="Cidade:"/>
+                     <p:inputText value="#{endereco.cidade}" />
+
+                     <h:outputLabel value="Logradouro:"/>
+                     <p:inputText value="#{endereco.logradouro}" />
+
+                     <h:outputLabel value="Número:"/>
+                     <p:inputText value="#{endereco.numero}" />
+
+                     <h:outputLabel value="Complemento:"/>
+                     <p:inputText value="#{endereco.complemento}" />
+
+                  </p:panelGrid>
+
+                  <p:commandButton value="Remover Endereço"
+                                   action="#{CadastroPessoaView.removerEndereco(endereco)}"
+                                   process="@form"
+                                   update="formCadastro:enderecoPanel"
+                                   icon="pi pi-trash"
+                                   styleClass="ui-button-danger"/>
+               </div>
+            </ui:repeat>
+
+            <p:commandButton value="Adicionar Endereço"
+                             action="#{CadastroPessoaView.adicionarEndereco}"
+                             process="@form"
+                             update="@parent"
+                             icon="pi pi-plus"
+                             styleClass="ui-button-primary"/>
+         </p:panel>
+
+         <p:commandButton value="Salvar" action="#{CadastroPessoaView.salvar}" update="@form"/>
+      </h:form>
+   </ui:define>
+</ui:composition>
+</html>
