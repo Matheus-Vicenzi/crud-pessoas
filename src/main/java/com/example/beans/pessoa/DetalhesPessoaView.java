@@ -1,6 +1,8 @@
 package com.example.beans.pessoa;
 
 import com.example.enums.Sexo;
+import com.example.exception.BusinessException;
+import com.example.model.endereco.Endereco;
 import com.example.model.pessoa.Pessoa;
 import com.example.service.pessoa.PessoaService;
 import com.example.util.DateUtils;
@@ -12,6 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,16 +54,33 @@ public class DetalhesPessoaView implements Serializable {
 
     public void salvarAlteracoes() {
         try {
+            validarCampos(pessoa);
+
             pessoa.setIdade(DateUtils.getYearsSince(pessoa.getDataNascimento()));
             pessoaService.salvar(pessoa);
             setPessoa(pessoaService.buscarPorId(pessoa.getId()));
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                     FacesMessage.SEVERITY_INFO, "Alterações salvas com sucesso!", null));
+        } catch (BusinessException businessException) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao salvar alterações.", businessException.getMessage()));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Erro ao salvar alterações.", null));
+                    FacesMessage.SEVERITY_ERROR, "Erro ao salvar alterações.", "Erro desconhecido."));
             e.printStackTrace();
         }
+    }
+
+    public void adicionarEndereco() {
+        if (pessoa.getEnderecos() == null) {
+            pessoa.setEnderecos(new ArrayList<>());
+        }
+        Endereco endereco = new Endereco();
+        pessoaService.adicionarEndereco(pessoa, endereco);
+    }
+
+    public void removerEndereco(Endereco endereco) {
+        pessoaService.removerEndereco(pessoa, endereco);
     }
 
     private void setPessoaOnInitialization() {
@@ -72,5 +92,51 @@ public class DetalhesPessoaView implements Serializable {
 
         pessoaId = Long.parseLong(idParam);
         pessoa = pessoaService.buscarPorId(pessoaId);
+    }
+
+    private void validarCampos(Pessoa pessoa) {
+        Boolean hasError = false;
+
+        StringBuilder erros = new StringBuilder();
+        erros.append("Campos inválidos:\n");
+
+        if (pessoa.getNome() == null || pessoa.getNome().isEmpty()) {
+            hasError = true;
+            erros.append("- Nome: Campo obrigatorio\n");
+        }
+
+        if (pessoa.getDataNascimento() == null) {
+            hasError = true;
+            erros.append("- Data de nascimento: Campo obrigatorio\n");
+        }
+
+        if (pessoa.getSexo() == null) {
+            hasError = true;
+            erros.append("- Sexo: Campo obrigatorio");
+        }
+
+        for (Endereco endereco : pessoa.getEnderecos()) {
+            if (endereco.getCep() == null || endereco.getCep().isEmpty()) {
+                hasError = true;
+                erros.append("- CEP: Campo obrigatorio");
+            }
+
+            if (endereco.getCidade() == null || endereco.getCidade().isEmpty()) {
+                hasError = true;
+                erros.append("- Cidade: Campo obrigatorio");
+            }
+
+            if (endereco.getEstado() == null || endereco.getEstado().isEmpty()) {
+                hasError = true;
+                erros.append("- Estado: Campo obrigatorio");
+            }
+
+            if (endereco.getLogradouro() == null || endereco.getLogradouro().isEmpty()) {
+                hasError = true;
+                erros.append("- Logradouro: Campo obrigatorio");
+            }
+        }
+
+        if (hasError) throw new BusinessException(erros.toString());
     }
 }

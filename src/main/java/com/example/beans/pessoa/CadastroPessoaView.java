@@ -1,6 +1,7 @@
 package com.example.beans.pessoa;
 
 import com.example.enums.Sexo;
+import com.example.exception.BusinessException;
 import com.example.model.endereco.Endereco;
 import com.example.model.pessoa.Pessoa;
 import com.example.service.pessoa.PessoaService;
@@ -30,26 +31,33 @@ public class CadastroPessoaView implements Serializable {
 
     @PostConstruct
     public void init() {
-        pessoa = new Pessoa();
-        listaSexo = List.of(Sexo.values());
-        listaEnderecos = new ArrayList<>();
+        inicializar();
     }
 
     public void salvar() {
-        pessoa.setIdade(DateUtils.getYearsSince(pessoa.getDataNascimento()));
+        try {
+            validarCampos(pessoa);
 
-        for (Endereco endereco : listaEnderecos) {
-            endereco.setPessoa(pessoa);
+            pessoa.setIdade(DateUtils.getYearsSince(pessoa.getDataNascimento()));
+
+            for (Endereco endereco : listaEnderecos) {
+                pessoaService.adicionarEndereco(pessoa, endereco);
+            }
+
+            pessoaService.salvar(pessoa);
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa cadastrada com sucesso!", null));
+
+            limparFormulario();
+        } catch (BusinessException businessException) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao cadastrar pessoa", businessException.getMessage()));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao cadastrar pessoa", "Erro desconhecido."));
         }
-
-        pessoa.setEnderecos(listaEnderecos);
-        pessoaService.salvar(pessoa);
-
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Pessoa cadastrada com sucesso!", null));
-
-        pessoa = new Pessoa();
-        listaEnderecos = new ArrayList<>();
     }
 
     public void adicionarEndereco() {
@@ -82,5 +90,40 @@ public class CadastroPessoaView implements Serializable {
 
     public void setListaEnderecos(List<Endereco> listaEnderecos) {
         this.listaEnderecos = listaEnderecos;
+    }
+
+    private void inicializar() {
+        pessoa = new Pessoa();
+        listaSexo = List.of(Sexo.values());
+        listaEnderecos = new ArrayList<>();
+    }
+
+    private void limparFormulario() {
+        pessoa = new Pessoa();
+        listaEnderecos = new ArrayList<>();
+    }
+
+    private void validarCampos(Pessoa pessoa) {
+        Boolean hasError = false;
+
+        StringBuilder erros = new StringBuilder();
+        erros.append("Campos inválidos:\n");
+
+        if (pessoa.getNome() == null || pessoa.getNome().isEmpty()) {
+            hasError = true;
+            erros.append("- Nome: Campo obrigatorio\n");
+        }
+
+        if (pessoa.getDataNascimento() == null) {
+            hasError = true;
+            erros.append("- Data de nascimento: Campo obrigatorio\n");
+        }
+
+        if (pessoa.getSexo() == null) {
+            hasError = true;
+            erros.append("- Sexo: Campo obrigatorio");
+        }
+
+        if (hasError) throw new BusinessException(erros.toString());
     }
 }

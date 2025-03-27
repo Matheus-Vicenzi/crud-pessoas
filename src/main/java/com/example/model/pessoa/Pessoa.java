@@ -1,6 +1,5 @@
 package com.example.model.pessoa;
 
-import com.example.adapter.PessoaBeanAdapter;
 import com.example.enums.Sexo;
 import com.example.model.BaseEntity;
 import com.example.model.endereco.Endereco;
@@ -10,7 +9,6 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity(name = "pessoa")
 public class Pessoa extends BaseEntity {
@@ -37,13 +35,6 @@ public class Pessoa extends BaseEntity {
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
         this.idade = DateUtils.getYearsSince(dataNascimento);
-    }
-
-    public Pessoa(PessoaBeanAdapter pessoaBeanAdapter) {
-        this.nome = pessoaBeanAdapter.getNome();
-        this.dataNascimento = pessoaBeanAdapter.getDataNascimento();
-        this.idade = pessoaBeanAdapter.getIdade();
-        this.sexo = pessoaBeanAdapter.getSexo();
     }
 
     public String getNome() {
@@ -92,15 +83,6 @@ public class Pessoa extends BaseEntity {
 
     public void removeEndereco(Endereco endereco) {
         this.enderecos.remove(endereco);
-    }
-
-    public Endereco getEndereco(Long id) {
-        if (enderecos.isEmpty() || enderecos == null)
-
-        for (Endereco endereco : enderecos) {
-            if (Objects.equals(endereco.getId(), id)) return endereco;
-        }
-        return null;
     }
 
     @Override

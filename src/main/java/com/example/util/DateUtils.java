@@ -15,4 +15,16 @@ public class DateUtils {
         LocalDate today = LocalDate.now();
         return Period.between(localDate, today).getYears();
     }
+
+    public static LocalDate dateToLocalDate(Date date) {
+        if (date == null) return null;
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static Date localDateToDate(LocalDate localDate) {
+        if (localDate == null) {
+            return null;
+        }
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
 }

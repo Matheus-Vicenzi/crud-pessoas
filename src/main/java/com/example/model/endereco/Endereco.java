@@ -10,22 +10,24 @@ import jakarta.persistence.ManyToOne;
 @Entity(name = "endereco")
 public class Endereco extends BaseEntity {
 
-    @Column(name = "estado", length = 2)
+    @Column(name = "estado", length = 2, nullable = false)
     private String estado;
 
-    @Column(name = "cidade", length = 100)
+    @Column(name = "cidade", length = 100, nullable = false)
     private String cidade;
 
-    @Column(name = "logradouro", length = 100)
+    @Column(name = "logradouro", length = 100, nullable = false)
     private String logradouro;
 
+    // Utilizado String como tipo pois não é feito calculo com esse valor
+    // e algumas propriedades utilizam numeros + letras para referência
     @Column(name = "numero")
     private String numero;
 
-    @Column(name = "complemento", nullable = true)
+    @Column(name = "complemento")
     private String complemento;
 
-    @Column(name = "cep")
+    @Column(name = "cep", nullable = false)
     private String cep;
 
     @ManyToOne
@@ -33,17 +35,6 @@ public class Endereco extends BaseEntity {
     private Pessoa pessoa;
 
     public Endereco() {}
-
-    public Endereco(String estado, String cidade, String logradouro, String numero, String cep, String complemento,
-                    Pessoa pessoa) {
-        this.estado = estado;
-        this.cidade = cidade;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.cep = cep;
-        this.complemento = complemento;
-        this.pessoa = pessoa;
-    }
 
     public String getEstado() {
         return estado;

@@ -28,10 +28,6 @@ public class ListarPessoasView implements Serializable {
         return pessoas;
     }
 
-    public void setListaPessoas(List<Pessoa> pessoas) {
-        this.pessoas = pessoas;
-    }
-
     public Long getPessoaIdExclusao() {
         return pessoaIdExclusao;
     }
@@ -59,7 +55,6 @@ public class ListarPessoasView implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao acessar consulta detalhada de pessoas", null));
         }
     }
-
 
     public void iniciarExclusao(Long pessoaId) {
         pessoaIdExclusao = pessoaId;
