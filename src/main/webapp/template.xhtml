@@ -4,16 +4,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
     <title>Gestão de Pessoas</title>
 </h:head>
 <h:body>
-    <!-- Menu de Navegação -->
     <p:menubar>
         <p:menuitem value="Listar Pessoas" outcome="listar.xhtml"/>
         <p:menuitem value="Nova Pessoa" outcome="criar.xhtml"/>
     </p:menubar>
 
-    <!-- Área onde o conteúdo de cada página será inserido -->
     <h:panelGroup>
         <ui:insert name="conteudo"/>
     </h:panelGroup>

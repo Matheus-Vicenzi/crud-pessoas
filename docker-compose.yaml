@@ -1,8 +1,11 @@
+networks:
+  kumulus:
+    driver: bridge
+
 services:
   postgres:
     image: postgres:15
     container_name: postgres_db
-    restart: always
     environment:
       POSTGRES_DB: meu_banco
       POSTGRES_USER: meu_usuario
@@ -11,3 +14,17 @@ services:
       - "5432:5432"
     volumes:
       - ./db_data:/var/lib/postgresql/data
+    networks:
+      - kumulus
+
+  jboss:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jboss_server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - kumulus

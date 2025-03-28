@@ -1,5 +1,6 @@
 package com.example.model.endereco;
 
+import com.example.adapter.CepAdapter;
 import com.example.model.BaseEntity;
 import com.example.model.pessoa.Pessoa;
 import jakarta.persistence.Column;
@@ -15,6 +16,9 @@ public class Endereco extends BaseEntity {
 
     @Column(name = "cidade", length = 100, nullable = false)
     private String cidade;
+
+    @Column(name = "bairro")
+    private String bairro;
 
     @Column(name = "logradouro", length = 100, nullable = false)
     private String logradouro;
@@ -35,6 +39,17 @@ public class Endereco extends BaseEntity {
     private Pessoa pessoa;
 
     public Endereco() {}
+
+    public Endereco(CepAdapter cepAdapter, String complemento, String numero, Pessoa pessoa) {
+        this.cep = cepAdapter.getCep();
+        this.estado = cepAdapter.getEstado();
+        this.cidade = cepAdapter.getCidade();
+        this.bairro = cepAdapter.getBairro();
+        this.logradouro = cepAdapter.getLogradouro();
+        this.numero = numero;
+        this.pessoa = pessoa;
+        this.complemento = complemento;
+    }
 
     public String getEstado() {
         return estado;
@@ -90,5 +105,13 @@ public class Endereco extends BaseEntity {
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 }

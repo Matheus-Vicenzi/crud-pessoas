@@ -40,26 +40,46 @@
          <p:panel id="enderecoPanel" header="Endereços" styleClass="ui-panel-title">
             <ui:repeat value="#{CadastroPessoaView.listaEnderecos}" var="endereco" varStatus="status">
                <div class="card">
-                  <p:panelGrid columns="2" style="width:100%">
+                  <div class="ui-fluid">
                      <h:outputLabel value="CEP:"/>
                      <p:inputMask value="#{endereco.cep}" mask="99999-999"/>
+                  </div>
+                  <p:commandButton value="Buscar Cep"
+                                   action="#{CadastroPessoaView.buscarEnderecoPorCep(endereco)}"
+                                   process="@form"
+                                   update="formCadastro:enderecoPanel"
+                                   icon="pi pi-search"
+                                   styleClass="ui-button-info" />
 
+                  <div class="ui-fluid">
                      <h:outputLabel value="Estado:"/>
                      <p:inputText value="#{endereco.estado}" />
+                  </div>
 
+                  <div class="ui-fluid">
                      <h:outputLabel value="Cidade:"/>
                      <p:inputText value="#{endereco.cidade}" />
+                  </div>
 
+                  <div class="ui-fluid">
+                     <h:outputLabel value="Bairro:"/>
+                     <p:inputText value="#{endereco.bairro}" />
+                  </div>
+
+                  <div class="ui-fluid">
                      <h:outputLabel value="Logradouro:"/>
                      <p:inputText value="#{endereco.logradouro}" />
+                  </div>
 
+                  <div class="ui-fluid">
                      <h:outputLabel value="Número:"/>
                      <p:inputText value="#{endereco.numero}" />
+                  </div>
 
+                  <div class="ui-fluid">
                      <h:outputLabel value="Complemento:"/>
                      <p:inputText value="#{endereco.complemento}" />
-
-                  </p:panelGrid>
+                  </div>
 
                   <p:commandButton value="Remover Endereço"
                                    action="#{CadastroPessoaView.removerEndereco(endereco)}"

@@ -1,0 +1,5 @@
+db_data/
+target/
+postgresql-42.7.3.jar
+docker-compose.yaml
+.idea/

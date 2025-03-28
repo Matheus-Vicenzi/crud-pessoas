@@ -1,9 +1,11 @@
 package com.example.beans.pessoa;
 
+import com.example.adapter.CepAdapter;
 import com.example.enums.Sexo;
 import com.example.exception.BusinessException;
 import com.example.model.endereco.Endereco;
 import com.example.model.pessoa.Pessoa;
+import com.example.service.endereco.EnderecoService;
 import com.example.service.pessoa.PessoaService;
 import com.example.util.DateUtils;
 import jakarta.annotation.PostConstruct;
@@ -28,6 +30,8 @@ public class CadastroPessoaView implements Serializable {
 
     @Inject
     private PessoaService pessoaService;
+    @Inject
+    private EnderecoService enderecoService;
 
     @PostConstruct
     public void init() {
@@ -57,6 +61,38 @@ public class CadastroPessoaView implements Serializable {
             exception.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao cadastrar pessoa", "Erro desconhecido."));
+        }
+    }
+
+    public void buscarEnderecoPorCep(Endereco endereco) {
+        try {
+            if (endereco.getCep() == null || endereco.getCep().isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "CEP inválido", "Por favor, informe um CEP válido."));
+                return;
+            }
+
+            CepAdapter cepAdapter = enderecoService.consultarCep(endereco.getCep());
+            System.out.println(cepAdapter);
+
+            Endereco enderecoBuscado = new Endereco(
+                    cepAdapter,
+                    endereco.getComplemento(),
+                    endereco.getNumero(),
+                    pessoa
+            );
+
+            // Preenchendo os campos do endereço com os dados retornados
+            endereco.setEstado(enderecoBuscado.getEstado());
+            endereco.setCidade(enderecoBuscado.getCidade());
+            endereco.setBairro(enderecoBuscado.getBairro());
+            endereco.setLogradouro(enderecoBuscado.getLogradouro());
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Endereço encontrado!", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao buscar endereço", e.getMessage()));
         }
     }
 
