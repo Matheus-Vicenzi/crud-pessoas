@@ -22,9 +22,8 @@ public class PessoaRepository {
 
     public void remover(Long id) {
         Pessoa pessoa = em.find(Pessoa.class, id);
-        if (pessoa != null) {
-            em.remove(pessoa);
-        }
+        if (pessoa == null) throw new RuntimeException("Pessoa não encontrada");
+        em.remove(pessoa);
     }
 
     public Pessoa buscarPorId(Long id) {

@@ -37,7 +37,7 @@ public class PessoaServiceTest {
     @Test
     public void testSalvarComDataNascimentoFutura() {
         Pessoa pessoa = new Pessoa();
-        pessoa.setDataNascimento(DateUtils.localDateToDate(LocalDate.now().plusDays(1))); // Data no futuro
+        pessoa.setDataNascimento(DateUtils.localDateToDate(LocalDate.now().plusDays(1)));
 
         assertThrows(BusinessException.class, () -> pessoaService.salvar(pessoa));
     }
@@ -131,15 +131,31 @@ public class PessoaServiceTest {
         assertEquals("João", pessoaBuscada.getNome());
     }
 
-    //ajustar
-//    @Test
-//    public void testRemoverPessoa() {
-//        Pessoa pessoa = new Pessoa();
-//        pessoa.setNome("João");
-//        pessoaService.salvar(pessoa);
-//
-//        pessoaService.remover(pessoa.getId());
-//        Pessoa pessoaRemovida = pessoaService.buscarPorId(pessoa.getId());
-//        assertNull(pessoaRemovida);
-//    }
+    @Test
+    public void testAdicionarEnderecoGaranteRelacionamento() {
+        Pessoa pessoa = new Pessoa();
+        Endereco endereco = new Endereco();
+
+        pessoaService.adicionarEndereco(pessoa, endereco);
+
+        assertEquals(pessoa, endereco.getPessoa());
+    }
+
+    @Test
+    public void testRemoverPessoaNaoExistente() {
+        Long idInexistente = 999L;
+        doThrow(new RuntimeException("Pessoa não encontrada")).when(pessoaRepository).remover(idInexistente);
+
+        assertThrows(RuntimeException.class, () -> pessoaService.remover(idInexistente));
+    }
+
+    @Test
+    public void testListarSemPessoas() {
+        when(pessoaRepository.listar()).thenReturn(new ArrayList<>());
+
+        List<Pessoa> resultado = pessoaService.listar();
+
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
+    }
 }
