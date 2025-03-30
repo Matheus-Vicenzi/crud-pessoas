@@ -79,6 +79,7 @@ public class Pessoa extends BaseEntity {
 
     public void addEndereco(Endereco endereco) {
         this.enderecos.add(endereco);
+        endereco.setPessoa(this);
     }
 
     public void removeEndereco(Endereco endereco) {

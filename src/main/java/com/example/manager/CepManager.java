@@ -1,7 +1,7 @@
 package com.example.manager;
 
-import com.example.adapter.CepAdapter;
+import com.example.adapter.endereco.EnderecoCepAdapter;
 
 public interface CepManager {
-    public CepAdapter buscarDados(String cep);
+    public EnderecoCepAdapter buscarDados(String cep);
 }

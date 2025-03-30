@@ -85,7 +85,7 @@ public class PessoaServiceTest {
         Pessoa pessoa = new Pessoa();
         Endereco endereco = new Endereco();
 
-        pessoaService.adicionarEndereco(pessoa, endereco);
+       pessoa.addEndereco(endereco);
 
         assertTrue(pessoa.getEnderecos().contains(endereco));
         assertEquals(pessoa, endereco.getPessoa());
@@ -136,7 +136,7 @@ public class PessoaServiceTest {
         Pessoa pessoa = new Pessoa();
         Endereco endereco = new Endereco();
 
-        pessoaService.adicionarEndereco(pessoa, endereco);
+        pessoa.addEndereco(endereco);
 
         assertEquals(pessoa, endereco.getPessoa());
     }

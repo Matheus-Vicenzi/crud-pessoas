@@ -4,32 +4,18 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
                  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
-    <!-- Define a unidade de persistência -->
     <persistence-unit name="MyPU" transaction-type="RESOURCE_LOCAL">
-        <!-- Definindo o provedor do JPA (Hibernate) -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-        <!-- Configurações de conexão com o banco -->
         <properties>
-            <!-- Configuração do banco de dados -->
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/meu_banco"/>
             <property name="hibernate.connection.username" value="meu_usuario"/>
             <property name="hibernate.connection.password" value="minha_senha"/>
 
-            <!-- Dialeto do banco de dados (para o PostgreSQL) -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-
-            <!-- Gerenciamento do esquema do banco (caso queira gerar ou atualizar automaticamente) -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- Pode ser 'validate', 'update', 'create' ou 'create-drop' -->
-
-            <!-- Exibir as queries no console -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
-
-            <!-- Controle de transações (gerenciado pela sua aplicação) -->
             <property name="hibernate.transaction.coordinator_class" value="org.hibernate.transaction.JDBCTransactionFactory"/>
-
-            <!-- Definir a estratégia de geração de identidades (auto incremento) -->
             <property name="hibernate.id.new_generator_mappings" value="true"/>
         </properties>
 

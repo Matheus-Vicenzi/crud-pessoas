@@ -10,6 +10,10 @@ public enum Sexo {
         this.descricao = descricao;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     @Override
     public String toString() {
         return descricao;
@@ -21,5 +25,16 @@ public enum Sexo {
 
     public Boolean isFeminino() {
         return this == FEMININO;
+    }
+
+    public static Sexo fromString(String descricao) {
+        if (descricao != null) {
+            for (Sexo sexo : Sexo.values()) {
+                if (descricao.equalsIgnoreCase(sexo.getDescricao())) {
+                    return sexo;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Sexo inválido. Valores permitidos: M, F.");
     }
 }

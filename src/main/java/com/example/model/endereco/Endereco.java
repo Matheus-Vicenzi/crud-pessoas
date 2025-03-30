@@ -1,8 +1,9 @@
 package com.example.model.endereco;
 
-import com.example.adapter.CepAdapter;
+import com.example.adapter.endereco.EnderecoCepAdapter;
 import com.example.model.BaseEntity;
 import com.example.model.pessoa.Pessoa;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -36,16 +37,17 @@ public class Endereco extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id", nullable = false)
+    @JsonbTransient
     private Pessoa pessoa;
 
     public Endereco() {}
 
-    public Endereco(CepAdapter cepAdapter, String complemento, String numero, Pessoa pessoa) {
-        this.cep = cepAdapter.getCep();
-        this.estado = cepAdapter.getEstado();
-        this.cidade = cepAdapter.getCidade();
-        this.bairro = cepAdapter.getBairro();
-        this.logradouro = cepAdapter.getLogradouro();
+    public Endereco(EnderecoCepAdapter enderecoCepAdapter, String complemento, String numero, Pessoa pessoa) {
+        this.cep = enderecoCepAdapter.getCep();
+        this.estado = enderecoCepAdapter.getEstado();
+        this.cidade = enderecoCepAdapter.getCidade();
+        this.bairro = enderecoCepAdapter.getBairro();
+        this.logradouro = enderecoCepAdapter.getLogradouro();
         this.numero = numero;
         this.pessoa = pessoa;
         this.complemento = complemento;

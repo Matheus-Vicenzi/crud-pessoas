@@ -1,6 +1,6 @@
 package com.example.manager;
 
-import com.example.adapter.CepAdapter;
+import com.example.adapter.endereco.EnderecoCepAdapter;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,7 +15,7 @@ public class ViaCepManager implements CepManager {
     private static final String VIACEP_URL = "https://viacep.com.br/ws/%s/json/";
 
     @Override
-    public CepAdapter buscarDados(String cep) {
+    public EnderecoCepAdapter buscarDados(String cep) {
         String urlString = String.format(VIACEP_URL, cep);
         try {
             URL url = new URL(urlString);
@@ -35,7 +35,7 @@ public class ViaCepManager implements CepManager {
                 throw new RuntimeException("CEP inválido ou não encontrado");
             }
 
-            return new CepAdapter(
+            return new EnderecoCepAdapter(
                     jsonObject.get("cep").getAsString(),
                     jsonObject.get("logradouro").getAsString(),
                     jsonObject.get("localidade").getAsString(),

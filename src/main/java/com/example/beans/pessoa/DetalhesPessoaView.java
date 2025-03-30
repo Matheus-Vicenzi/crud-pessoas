@@ -1,9 +1,11 @@
 package com.example.beans.pessoa;
 
+import com.example.adapter.endereco.EnderecoCepAdapter;
 import com.example.enums.Sexo;
 import com.example.exception.BusinessException;
 import com.example.model.endereco.Endereco;
 import com.example.model.pessoa.Pessoa;
+import com.example.service.endereco.EnderecoService;
 import com.example.service.pessoa.PessoaService;
 import com.example.util.DateUtils;
 import jakarta.annotation.PostConstruct;
@@ -24,6 +26,9 @@ public class DetalhesPessoaView implements Serializable {
 
     @Inject
     private PessoaService pessoaService;
+
+    @Inject
+    private EnderecoService enderecoService;
 
     private Long pessoaId;
 
@@ -76,12 +81,36 @@ public class DetalhesPessoaView implements Serializable {
             pessoa.setEnderecos(new ArrayList<>());
         }
         Endereco endereco = new Endereco();
-        pessoaService.adicionarEndereco(pessoa, endereco);
+        pessoa.addEndereco(endereco);
     }
 
     public void removerEndereco(Endereco endereco) {
         pessoaService.removerEndereco(pessoa, endereco);
     }
+
+    public void buscarEnderecoPorCep(Endereco endereco) {
+        try {
+            if (endereco.getCep() == null || endereco.getCep().isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "CEP inválido", "Por favor, informe um CEP válido."));
+                return;
+            }
+
+            EnderecoCepAdapter enderecoCepAdapter = enderecoService.consultarCep(endereco.getCep());
+
+            endereco.setEstado(enderecoCepAdapter.getEstado());
+            endereco.setCidade(enderecoCepAdapter.getCidade());
+            endereco.setBairro(enderecoCepAdapter.getBairro());
+            endereco.setLogradouro(enderecoCepAdapter.getLogradouro());
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Endereço encontrado!", null));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Erro ao buscar endereço", e.getMessage()));
+        }
+    }
+
 
     private void setPessoaOnInitialization() {
         FacesContext facesContext = FacesContext.getCurrentInstance();

@@ -1,6 +1,6 @@
 package com.example.beans.pessoa;
 
-import com.example.adapter.CepAdapter;
+import com.example.adapter.endereco.EnderecoCepAdapter;
 import com.example.enums.Sexo;
 import com.example.exception.BusinessException;
 import com.example.model.endereco.Endereco;
@@ -45,7 +45,7 @@ public class CadastroPessoaView implements Serializable {
             pessoa.setIdade(DateUtils.getYearsSince(pessoa.getDataNascimento()));
 
             for (Endereco endereco : listaEnderecos) {
-                pessoaService.adicionarEndereco(pessoa, endereco);
+                pessoa.addEndereco(endereco);
             }
 
             pessoaService.salvar(pessoa);
@@ -68,15 +68,15 @@ public class CadastroPessoaView implements Serializable {
         try {
             if (endereco.getCep() == null || endereco.getCep().isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "CEP inválido", "Por favor, informe um CEP válido."));
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "CEP inválido", "Por favor, informe um CEP válido."));
                 return;
             }
 
-            CepAdapter cepAdapter = enderecoService.consultarCep(endereco.getCep());
-            System.out.println(cepAdapter);
+            EnderecoCepAdapter enderecoCepAdapter = enderecoService.consultarCep(endereco.getCep());
+            System.out.println(enderecoCepAdapter);
 
             Endereco enderecoBuscado = new Endereco(
-                    cepAdapter,
+                    enderecoCepAdapter,
                     endereco.getComplemento(),
                     endereco.getNumero(),
                     pessoa

@@ -6,7 +6,6 @@
 
     <display-name>JSF PrimeFaces App</display-name>
 
-    <!-- Configuração do JSF -->
     <context-param>
         <param-name>jakarta.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>

@@ -7,7 +7,7 @@
 <ui:composition template="template.xhtml">
     <ui:define name="conteudo">
         <h:form>
-            <p:dataTable value="#{ListarPessoasView.pessoas}" var="p">
+            <p:dataTable value="#{ListarPessoasView.pessoas}" var="p" emptyMessage="Nenhuma pessoa cadastrada">
                 <p:column headerText="Id">
                     #{p.id}
                 </p:column>

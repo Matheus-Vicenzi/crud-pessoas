@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
 # Defina variáveis para facilitar
 ENV WILDFLY_VERSION 27.0.1.Final
 ENV WILDFLY_PATH /opt/jboss/wildfly
-ENV OTEL_VERSION 2.14.0
 ARG PACKAGE_NAME jsf-primefaces-app-1.0-SNAPSHOT.war
 
 # Crie a pasta para o WildFly
@@ -38,10 +37,6 @@ COPY module.xml ${WILDFLY_PATH}/wildfly-${WILDFLY_VERSION}/modules/system/layers
 # Baixe o driver JDBC do PostgreSQL
 RUN wget https://jdbc.postgresql.org/download/postgresql-42.7.3.jar -P ${WILDFLY_PATH}/wildfly-${WILDFLY_VERSION}/modules/system/layers/base/org/postgresql/main/
 
-# Baixar o OpenTelemetry Java Agent
-RUN wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/opentelemetry-javaagent.jar \
-    -O ${WILDFLY_PATH}/wildfly-${WILDFLY_VERSION}/opentelemetry-javaagent.jar
-
 # Copie o código-fonte da aplicação para dentro do container
 WORKDIR /app
 COPY . .
@@ -57,14 +52,6 @@ WORKDIR ${WILDFLY_PATH}/wildfly-${WILDFLY_VERSION}
 
 # Expor a porta do WildFly
 EXPOSE 8080
-
-# Configurar o OpenTelemetry como agente da JVM para enviar dados ao Jaeger
-ENV JAVA_OPTS="-javaagent:/opt/jboss/wildfly/wildfly-${WILDFLY_VERSION}/opentelemetry-javaagent.jar \
-  -Dotel.exporter.otlp.endpoint=http://jaeger:14268/api/traces \
-  -Dotel.service.name=wildfly-app \
-  -Dotel.traces.exporter=otlp \
-  -Dotel.metrics.exporter=none \
-  -Dotel.logs.exporter=none"
 
 # Executar o WildFly
 CMD ["bin/standalone.sh", "-b", "0.0.0.0"]

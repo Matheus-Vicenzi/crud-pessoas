@@ -5,89 +5,101 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition template="template.xhtml">
-   <ui:define name="conteudo">
-      <h:form id="formDetalhes">
-         <p:growl id="msgs" showDetail="true" />
+    <ui:define name="conteudo">
+        <h:form id="formDetalhes">
+            <p:growl id="msgs" showDetail="true"/>
 
-         <p:panel header="Detalhes de #{DetalhesPessoaView.pessoa.nome}" styleClass="ui-panel-title">
-            <div class="card">
-               <div class="ui-fluid">
-                  <div class="field">
-                     <p:outputLabel for="nome" value="Nome:"/>
-                     <p:inputText id="nome" value="#{DetalhesPessoaView.pessoa.nome}"/>
-                  </div>
-               </div>
+            <p:panel header="Detalhes de #{DetalhesPessoaView.pessoa.nome}" styleClass="ui-panel-title">
+                <div class="card">
+                    <div class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nome" value="Nome:"/>
+                            <p:inputText id="nome" value="#{DetalhesPessoaView.pessoa.nome}"/>
+                        </div>
+                    </div>
 
-               <div class="ui-fluid">
-                  <div class="field">
-                     <div class="field col-12 md:col-4">
-                        <p:outputLabel for="dataNascimento" value="Data de Nascimento:" />
-                        <p:datePicker id="dataNascimento" value="#{DetalhesPessoaView.pessoa.dataNascimento}" monthNavigator="true" yearNavigator="true" showWeek="false" />
-                     </div>
-                  </div>
-               </div>
+                    <div class="ui-fluid">
+                        <div class="field">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="dataNascimento" value="Data de Nascimento:"/>
+                                <p:datePicker id="dataNascimento" value="#{DetalhesPessoaView.pessoa.dataNascimento}"
+                                              monthNavigator="true" yearNavigator="true" showWeek="false"/>
+                            </div>
+                        </div>
+                    </div>
 
-               <div class="ui-fluid">
-                  <div class="field">
-                     <p:outputLabel for="idade" value="Idade:"/>
-                     <p:inputText id="idade" value="#{DetalhesPessoaView.pessoa.idade}" disabled="true"/>
-                  </div>
-               </div>
+                    <div class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="idade" value="Idade:"/>
+                            <p:inputText id="idade" value="#{DetalhesPessoaView.pessoa.idade}" disabled="true"/>
+                        </div>
+                    </div>
 
-               <div class="ui-fluid">
-                  <div class="field">
-                     <h:outputLabel value="Sexo:"/>
-                     <p:selectOneMenu value="#{DetalhesPessoaView.pessoa.sexo}">
-                        <f:selectItems value="#{DetalhesPessoaView.listaSexo}" var="s" itemLabel="#{s}" itemValue="#{s}"/>
-                     </p:selectOneMenu>
-                  </div>
-               </div>
-            </div>
+                    <div class="ui-fluid">
+                        <div class="field">
+                            <h:outputLabel value="Sexo:"/>
+                            <p:selectOneMenu value="#{DetalhesPessoaView.pessoa.sexo}">
+                                <f:selectItems value="#{DetalhesPessoaView.listaSexo}" var="s" itemLabel="#{s}"
+                                               itemValue="#{s}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Bloco de Endereços -->
-            <p:panel header="Endereços" styleClass="ui-panel-title">
-               <ui:repeat value="#{DetalhesPessoaView.pessoa.enderecos}" var="endereco" varStatus="status">
-                  <div class="card">
-                     <p:panelGrid columns="2" style="width:100%">
-                        <h:outputLabel value="CEP:"/>
-                        <p:inputMask value="#{endereco.cep}" mask="99999-999"/>
+                <!-- Bloco de Endereços -->
+                <p:panel header="Endereços" styleClass="ui-panel-title">
+                    <ui:repeat value="#{DetalhesPessoaView.pessoa.enderecos}" var="endereco" varStatus="status">
+                        <div class="card">
+                            <div class="ui-fluid">
+                                <h:outputLabel value="CEP:"/>
+                                <p:inputMask value="#{endereco.cep}" mask="99999-999"/>
+                            </div>
 
-                        <h:outputLabel value="Estado:"/>
-                        <p:inputText value="#{endereco.estado}" />
+                            <p:commandButton value="Buscar Cep"
+                                             action="#{DetalhesPessoaView.buscarEnderecoPorCep(endereco)}"
+                                             process="@form"
+                                             update="formDetalhes"
+                                             icon="pi pi-search"
+                                             styleClass="ui-button-info"/>
 
-                        <h:outputLabel value="Cidade:"/>
-                        <p:inputText value="#{endereco.cidade}" />
+                            <div class="ui-fluid">
+                                <h:outputLabel value="Estado:"/>
+                                <p:inputText value="#{endereco.estado}"/>
+                            </div>
+                            <div class="ui-fluid">
+                                <h:outputLabel value="Cidade:"/>
+                                <p:inputText value="#{endereco.cidade}"/>
+                            </div>
+                            <h:outputLabel value="Logradouro:"/>
+                            <p:inputText value="#{endereco.logradouro}"/>
+                            <div class="ui-fluid">
+                                <h:outputLabel value="Número:"/>
+                                <p:inputText value="#{endereco.numero}"/>
+                            </div>
+                            <div class="ui-fluid">
+                                <h:outputLabel value="Complemento:"/>
+                                <p:inputText value="#{endereco.complemento}"/>
+                            </div>
+                            <p:commandButton value="Remover Endereço"
+                                             action="#{DetalhesPessoaView.removerEndereco(endereco)}"
+                                             update="formDetalhes"
+                                             icon="pi pi-trash"
+                                             styleClass="ui-button-danger"/>
+                        </div>
+                    </ui:repeat>
 
-                        <h:outputLabel value="Logradouro:"/>
-                        <p:inputText value="#{endereco.logradouro}" />
+                    <p:commandButton value="Adicionar Endereço"
+                                     action="#{DetalhesPessoaView.adicionarEndereco}"
+                                     update="formDetalhes"
+                                     icon="pi pi-plus"
+                                     styleClass="ui-button-primary"/>
+                </p:panel>
 
-                        <h:outputLabel value="Número:"/>
-                        <p:inputText value="#{endereco.numero}" />
-
-                        <h:outputLabel value="Complemento:"/>
-                        <p:inputText value="#{endereco.complemento}" />
-                     </p:panelGrid>
-
-                     <p:commandButton value="Remover Endereço"
-                                      action="#{DetalhesPessoaView.removerEndereco(endereco)}"
-                                      update="formDetalhes"
-                                      icon="pi pi-trash"
-                                      styleClass="ui-button-danger"/>
-                  </div>
-               </ui:repeat>
-
-               <p:commandButton value="Adicionar Endereço"
-                                action="#{DetalhesPessoaView.adicionarEndereco}"
-                                update="formDetalhes"
-                                icon="pi pi-plus"
-                                styleClass="ui-button-primary"/>
+                <p:commandButton value="Salvar Alterações" action="#{DetalhesPessoaView.salvarAlteracoes()}"
+                                 update="@form" process="@form" styleClass="ui-button-primary"/>
             </p:panel>
 
-            <p:commandButton value="Salvar Alterações" action="#{DetalhesPessoaView.salvarAlteracoes()}"
-                             update="@form" process="@form" styleClass="ui-button-primary"/>
-         </p:panel>
-
-      </h:form>
-   </ui:define>
+        </h:form>
+    </ui:define>
 </ui:composition>
 </html>

@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: meu_usuario
       POSTGRES_PASSWORD: minha_senha
     ports:
-      - "5432:5432"
+      - "5432:5432" #Remover em Prod
     volumes:
       - ./db_data:/var/lib/postgresql/data
     networks:
@@ -28,18 +28,20 @@ services:
       - postgres
     networks:
       - kumulus
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4317"
+      OTEL_SERVICE_NAME: "your-service-name"
+      OTEL_TRACES_EXPORTER: "otlp"
+      OTEL_METRICS_EXPORTER: "none"
+      OTEL_LOGS_EXPORTER: "none"
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=your-service-name"
 
   jaeger:
-    image: jaegertracing/all-in-one:1.52
-    container_name: jaeger
-    environment:
-      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
-      - JAEGER_SAMPLER_TYPE=const
-      - JAEGER_SAMPLER_PARAM=1
+    image: jaegertracing/all-in-one:latest
     ports:
-      - "16686:16686"  # Interface Web do Jaeger
-      - "14268:14268"  # API HTTP para recebimento de traces
-      - "14250:14250"  # gRPC para recebimento de traces
-      - "6831:6831/udp" # Protocolo UDP para recebimento de traces
+      - "16686:16686" # Jaeger UI
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
     networks:
       - kumulus
+
