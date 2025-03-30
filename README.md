@@ -139,3 +139,4 @@ que segue o contrato definido por `com.example.manager.CepManager`.
 - Estruturação e definição de padrões para o gitflow e gerenciamento de pull requests.
 - Realizar a documentação das APIs com a especificação OpenApi.
 - Adicionar e aprimorar os testes automatizado, focando em testes end-to-end e testes de integração.
+- Fazer o upload da imagem para um container registry na pipeline CI/CD.
