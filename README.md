@@ -68,6 +68,8 @@ onde controller é a camada e pessoa é o domínio.
 
 ### Como Executar o Projeto
 
+Necessário GIT e docker instalados.
+
 Para rodar o projeto localmente, siga os passos abaixo:
 
 ##### 1. Clonar o repositório
