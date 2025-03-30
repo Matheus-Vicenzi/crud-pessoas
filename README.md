@@ -11,25 +11,25 @@ relacional (PostgreSQL) e JPA (Hibernate). Além disso, o projeto utiliza EJB pa
 
 ### Tecnologias Utilizadas
 
-JSF (Java Server Faces): Framework para desenvolvimento de aplicações web Java.
+- JSF (Java Server Faces): Framework para desenvolvimento de aplicações web Java.
 
-PrimeFaces: Biblioteca de componentes para JSF, proporcionando uma interface rica e interativa.
+- PrimeFaces: Biblioteca de componentes para JSF, proporcionando uma interface rica e interativa.
 
-PostgreSQL: Sistema de gerenciamento de banco de dados relacional.
+- PostgreSQL: Sistema de gerenciamento de banco de dados relacional.
 
-Hibernate: Implementação de JPA para mapeamento objeto-relacional.
+- Hibernate: Implementação de JPA para mapeamento objeto-relacional.
 
-EJB (Enterprise JavaBeans): Utilizado para injeção de dependências.
+- EJB (Enterprise JavaBeans): Utilizado para injeção de dependências.
 
-Maven: Gerenciador de dependências e build automation.
+- Maven: Gerenciador de dependências e build automation.
 
-Docker: Conteinerização da aplicação para facilitar a execução.
+- Docker: Conteinerização da aplicação para facilitar a execução.
 
-JUnit e Mockito: Frameworks para testes automatizados.
+- JUnit e Mockito: Frameworks para testes automatizados.
 
-Jboss WildFly: Servidor de aplicação.
+- Jboss WildFly: Servidor de aplicação.
 
-JAX-RS: Utilizada a implementação RESTeasy, implementação padrão do WildFly
+- JAX-RS: Utilizada a implementação RESTeasy, implementação padrão do WildFly
 
 ### Estrutura do Projeto
 
@@ -61,6 +61,10 @@ utilizar o padrão REST.
 - Service: Regras de negócio relacionadas ao domínio relativo.
 
 - Util: Classes de utilidade gerais.
+
+Caso a classe a ser criada seja de um determinado contexto de domínio, deve ser criada com o pacote de nome 
+`{camada}.{domínio}`, por exemplo, a controller de pessoas está no caminho: `com.exemplo.controller.pessoa.PessoaController`,
+onde controller é a camada e pessoa é o domínio.
 
 ### Como Executar o Projeto
 
