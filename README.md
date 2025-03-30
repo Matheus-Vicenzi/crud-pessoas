@@ -137,3 +137,4 @@ que segue o contrato definido por `com.example.manager.CepManager`.
 - Adição de uma pipeline CI.
 - Estruturação e definição de padrões para o gitflow e gerenciamento de pull requests.
 - Realizar a documentação das APIs com a especificação OpenApi.
+ 
