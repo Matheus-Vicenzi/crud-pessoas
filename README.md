@@ -68,6 +68,8 @@ onde controller é a camada e pessoa é o domínio.
 
 ### Como Executar o Projeto
 
+Necessário GIT e docker instalados.
+
 Para rodar o projeto localmente, siga os passos abaixo:
 
 ##### 1. Clonar o repositório
@@ -134,7 +136,7 @@ que segue o contrato definido por `com.example.manager.CepManager`.
 - Observabilidade com OpenTelemetry para exportação de métricas, logs e traces.
 - Adição de filtros de servlets.
 - Proteção de determinadas rotas através de autenticação JWT e autorização RBAC (Role-based access control).
-- Adição de uma pipeline CI.
 - Estruturação e definição de padrões para o gitflow e gerenciamento de pull requests.
 - Realizar a documentação das APIs com a especificação OpenApi.
- 
+- Adicionar e aprimorar os testes automatizado, focando em testes end-to-end e testes de integração.
+- Fazer o upload da imagem para um container registry na pipeline CI/CD.
