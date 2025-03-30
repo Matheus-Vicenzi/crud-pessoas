@@ -82,7 +82,6 @@ public class CadastroPessoaView implements Serializable {
                     pessoa
             );
 
-            // Preenchendo os campos do endereço com os dados retornados
             endereco.setEstado(enderecoBuscado.getEstado());
             endereco.setCidade(enderecoBuscado.getCidade());
             endereco.setBairro(enderecoBuscado.getBairro());

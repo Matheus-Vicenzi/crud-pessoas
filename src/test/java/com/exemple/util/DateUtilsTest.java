@@ -14,15 +14,12 @@ class DateUtilsTest {
 
     @Test
     void testGetYearsSince() {
-        //arrange
         Calendar calendar = Calendar.getInstance();
         calendar.set(2000, Month.NOVEMBER.getValue(), 21);
         Date date = calendar.getTime();
 
-        //act
         Integer yearsSince = DateUtils.getYearsSince(date);
 
-        //assert
         assertEquals(24, yearsSince);
     }
 
