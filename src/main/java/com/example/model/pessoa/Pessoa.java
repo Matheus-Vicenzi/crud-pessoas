@@ -1,6 +1,6 @@
 package com.example.model.pessoa;
 
-import com.example.enums.Sexo;
+import com.example.enums.pessoa.Sexo;
 import com.example.model.BaseEntity;
 import com.example.model.endereco.Endereco;
 import com.example.util.DateUtils;

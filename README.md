@@ -2,10 +2,12 @@
 
 Sobre o Projeto
 
-Este projeto é um sistema web para cadastro de pessoas, desenvolvido como parte de um desafio técnico. A aplicação 
-permite realizar operações CRUD (Create, Read, Update, Delete) através 
+Este projeto é um sistema web para cadastro de pessoas, desenvolvido como parte de um desafio técnico. A aplicação
+permite realizar operações CRUD (Create, Read, Update, Delete) através de uma interface web intuitiva, bem como a
+possibilidade de integração via API REST.
 
-A implementação segue as diretrizes do desafio, utilizando Java Server Faces (JSF) com PrimeFaces, um banco de dados relacional (PostgreSQL) e JPA (Hibernate). Além disso, o projeto utiliza EJB para injeção de dependências.
+A implementação segue as diretrizes do desafio, utilizando Java Server Faces (JSF) com PrimeFaces, um banco de dados 
+relacional (PostgreSQL) e JPA (Hibernate). Além disso, o projeto utiliza EJB para injeção de dependências.
 
 ### Tecnologias Utilizadas
 
@@ -25,15 +27,40 @@ Docker: Conteinerização da aplicação para facilitar a execução.
 
 JUnit e Mockito: Frameworks para testes automatizados.
 
+Jboss WildFly: Servidor de aplicação.
+
+JAX-RS: Utilizada a implementação RESTeasy, implementação padrão do WildFly
+
 ### Estrutura do Projeto
 
-A aplicação segue uma estrutura MVC (Model-View-Controller) para separação de responsabilidades:
+Explicação das estruturas de pastas e arquitetura:
 
-Model: Contém as entidades JPA e lógica de acesso ao banco de dados.
+- Adapter: Implementação do design pattern adapter, utilizado para desacoplar objetos de determinadas camadas.
 
-View: Implementada com JSF e PrimeFaces.
+- Beans: Beans utilizados pelo PrimeFaces para a renderização das páginas.
 
-Controller: Contém os Managed Beans que fazem a ponte entre a camada de visualização e a lógica de negócios.
+- Configuration: Classes de configuração do sistema.
+
+- Controller: Acesso via requisição HTTP de recursos, utilizando atualmente o RESTeasy, que é a implementação padrão do
+WildFly 27.0.1 para o JAX-RS. As configurações gerais podem ser definidas na classe 
+`com.example.configuration.ApplicationPath`, atualmente padronizado como rota de acesso `/api/{recuso}`, buscando
+utilizar o padrão REST.
+
+- DTO: Classes utilizadas para transferir dados da camada de controle para a camada de aplicação.
+
+- Enums: Definição de constantes.
+
+- Exceptions: Aqui devem ser criadas as exceções personalizadas.  
+
+- Manager: No contexto dessa aplicação, os Managers são responsáveis por fazer a integração com outros sistemas parceiros.
+
+- Model: Contém as entidades JPA e entidades de domínio da aplicação.
+
+- Repository: Classes que abstraem acessos ao banco de dados.
+
+- Service: Regras de negócio relacionadas ao domínio relativo.
+
+- Util: Classes de utilidade gerais.
 
 ### Como Executar o Projeto
 
@@ -64,10 +91,29 @@ JBoss: Servidor de aplicação para rodar a aplicação JSF
 
 Após iniciar os contêineres, a aplicação estará disponível em:
 
-http://localhost:8080/seu-contexto
+http://localhost:8080/jsf-primefaces-app-1.0-SNAPSHOT
 
 ### Como Executar os Testes
 
 Para rodar os testes automatizados, utilize o seguinte comando:
 
 mvn test
+
+### Configurações adicionais
+
+##### Utilizando o Postgres
+
+Para o gerenciamento automático do pool de conexões do PostgreSQL, é necessária a configuração do modulo do postgres no
+WildFly, o arquivo `module.xml` e configurações na montagem da imagem através do `Dockerfile` são os responsáveis por 
+isso. As configurações de acesso ao banco de dados, como rota e senha, podem ser encontradas no arquivo standalone.xml
+
+##### Standalone.xml
+
+O arquivo `standalone.xml` é responsável por diversas configurações do Jboss WildFly, como por exemplo:
+- Configurações de logs
+- Definição de rotas/senhas/usuario de acesso ao banco de dados
+- Configuração de porta e host da aplicação, entre outros.
+
+Na raiz do projeto, existe a versão modificada do `standalone.xml` com as alterações necessárias para a execução.
+No momento da construção da imagem através do Dockerfile, o arquivo `standalone.xml` da raiz do projeto substitui o 
+arquivo original do WildFly, definindo nossas preferências e configurações para a aplicação.

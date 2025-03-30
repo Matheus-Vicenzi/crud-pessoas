@@ -1,4 +1,4 @@
-package com.example.enums;
+package com.example.enums.pessoa;
 
 public enum Sexo {
     MASCULINO("M"),

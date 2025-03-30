@@ -1,7 +1,7 @@
 package com.example.beans.pessoa;
 
 import com.example.adapter.endereco.EnderecoCepAdapter;
-import com.example.enums.Sexo;
+import com.example.enums.pessoa.Sexo;
 import com.example.exception.BusinessException;
 import com.example.model.endereco.Endereco;
 import com.example.model.pessoa.Pessoa;

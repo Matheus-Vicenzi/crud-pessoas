@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.dto.endereco.EnderecoDTO;
 import com.example.dto.pessoa.PessoaDTO;
-import com.example.enums.Sexo;
+import com.example.enums.pessoa.Sexo;
 import com.example.model.endereco.Endereco;
 import com.example.model.pessoa.Pessoa;
 import com.example.service.pessoa.PessoaService;
