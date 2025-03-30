@@ -71,19 +71,18 @@ onde controller é a camada e pessoa é o domínio.
 Para rodar o projeto localmente, siga os passos abaixo:
 
 ##### 1. Clonar o repositório
-
+```sh
 git clone https://github.com/Matheus-Vicenzi/kumulus-test.git
+```
+```sh
 cd kumulus-test
+```
 
-##### 2. Construir a aplicação
-
-mvn clean install
-
-##### 3. Subir os containers Docker
+##### 2. Subir os containers Docker
 
 Certifique-se de que o Docker está instalado e em execução. Em seguida, execute:
 
-docker-compose up -d
+docker compose up -d
 
 Isso iniciará os seguintes serviços:
 
@@ -101,7 +100,9 @@ http://localhost:8080/jsf-primefaces-app-1.0-SNAPSHOT
 
 Para rodar os testes automatizados, utilize o seguinte comando:
 
+```sh
 mvn test
+```
 
 ### Configurações adicionais
 
@@ -121,3 +122,18 @@ O arquivo `standalone.xml` é responsável por diversas configurações do Jboss
 Na raiz do projeto, existe a versão modificada do `standalone.xml` com as alterações necessárias para a execução.
 No momento da construção da imagem através do Dockerfile, o arquivo `standalone.xml` da raiz do projeto substitui o 
 arquivo original do WildFly, definindo nossas preferências e configurações para a aplicação.
+
+### Integrações
+
+Atualmente, a aplicação consome a API gratuita do [ViaCep](https://viacep.com.br/) para consulta de CEPs.  
+A integração está implementada na classe `com.example.manager.ViaCepManager`, 
+que segue o contrato definido por `com.example.manager.CepManager`.
+
+##### Implementações futuras
+
+- Observabilidade com OpenTelemetry para exportação de métricas, logs e traces.
+- Adição de filtros de servlets.
+- Proteção de determinadas rotas através de autenticação JWT e autorização RBAC (Role-based access control).
+- Adição de uma pipeline CI.
+- Estruturação e definição de padrões para o gitflow e gerenciamento de pull requests.
+- Realizar a documentação das APIs com a especificação OpenApi.
