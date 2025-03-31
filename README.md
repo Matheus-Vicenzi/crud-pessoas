@@ -83,9 +83,9 @@ cd kumulus-test
 ##### 2. Subir os containers Docker
 
 Certifique-se de que o Docker está instalado e em execução. Em seguida, execute:
-
+```sh
 docker compose up -d
-
+```
 Isso iniciará os seguintes serviços:
 
 PostgreSQL: Banco de dados
@@ -130,6 +130,19 @@ arquivo original do WildFly, definindo nossas preferências e configurações pa
 Atualmente, a aplicação consome a API gratuita do [ViaCep](https://viacep.com.br/) para consulta de CEPs.  
 A integração está implementada na classe `com.example.manager.ViaCepManager`, 
 que segue o contrato definido por `com.example.manager.CepManager`.
+
+### CI
+
+As configurações relativas a pipelines CI estão na pasta `.github/workflows`:
+- docker-image.yaml: pipeline que realiza o build da imagem docker da aplicação, e faz o push para o dockerhub
+- maven.yaml: pipeline que executa o empacotamento da aplicação java e roda os testes automatizados.
+
+O arquivo `pull_request_template.md` define um template para a abertura do pull request, padronizando a documentação da
+adição de novo código ao repositório com 3 sessões:
+- Impacto: Aqui o desenvolvedor deve descrever qual o impacto do código introduzido no repositório.
+- Prints desenvolvimento: Caso haja a necessidade de visualização, deve ser inserido aqui as imagens do desenvolvimento.
+- Cenários testados: Nesta sessão devem ser descritos os cenários testados para a validação da funcionalidade a ser
+inserida na base de código.
 
 ##### Implementações futuras
 
