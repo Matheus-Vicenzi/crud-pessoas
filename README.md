@@ -83,9 +83,9 @@ cd kumulus-test
 ##### 2. Subir os containers Docker
 
 Certifique-se de que o Docker está instalado e em execução. Em seguida, execute:
-
+```sh
 docker compose up -d
-
+```
 Isso iniciará os seguintes serviços:
 
 PostgreSQL: Banco de dados
@@ -131,6 +131,19 @@ Atualmente, a aplicação consome a API gratuita do [ViaCep](https://viacep.com.
 A integração está implementada na classe `com.example.manager.ViaCepManager`, 
 que segue o contrato definido por `com.example.manager.CepManager`.
 
+### CI
+
+As configurações relativas a pipelines CI estão na pasta `.github/workflows`:
+- docker-image.yaml: pipeline que realiza o build da imagem docker da aplicação, e faz o push para o dockerhub
+- maven.yaml: pipeline que executa o empacotamento da aplicação java e roda os testes automatizados.
+
+O arquivo `pull_request_template.md` define um template para a abertura do pull request, padronizando a documentação da
+adição de novo código ao repositório com 3 sessões:
+- Impacto: Aqui o desenvolvedor deve descrever qual o impacto do código introduzido no repositório.
+- Prints desenvolvimento: Caso haja a necessidade de visualização, deve ser inserido aqui as imagens do desenvolvimento.
+- Cenários testados: Nesta sessão devem ser descritos os cenários testados para a validação da funcionalidade a ser
+inserida na base de código.
+
 ##### Implementações futuras
 
 - Observabilidade com OpenTelemetry para exportação de métricas, logs e traces.
@@ -139,4 +152,3 @@ que segue o contrato definido por `com.example.manager.CepManager`.
 - Estruturação e definição de padrões para o gitflow e gerenciamento de pull requests.
 - Realizar a documentação das APIs com a especificação OpenApi.
 - Adicionar e aprimorar os testes automatizado, focando em testes end-to-end e testes de integração.
-- Fazer o upload da imagem para um container registry na pipeline CI/CD.
